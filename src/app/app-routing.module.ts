@@ -3,6 +3,8 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { LayoutComponent } from "./components/layout/layout.component";
 import { HomeComponent } from "./components/home/home.component";
+import { LogInFormComponent } from "./components/log-in-form/log-in-form.component";
+import { RegisterFormComponent } from "./components/register-form/register-form.component";
 
 const ROUTES: Routes = [
     {
@@ -20,14 +22,14 @@ const ROUTES: Routes = [
         },
       ]
     },
-    // {
-    //   path: 'login',
-    //   //component: LogInFormComponent
-    // },
-    // {
-    //   path: 'signup',
-    //   //component: RegisterFormComponent
-    // },
+    {
+      path: 'login',
+      component: LogInFormComponent
+    },
+    {
+      path: 'signup',
+      component: RegisterFormComponent
+    },
   ];
 
   @NgModule({

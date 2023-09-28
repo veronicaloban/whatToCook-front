@@ -1,0 +1,14 @@
+form {
+    max-width: 500px;
+}
+
+.invalid {
+    input {
+        border: 1px solid red; //change to variable
+    }
+    &::after {
+        content: attr(data-error-message);
+        color: red;
+        width: 100%;
+    }
+}

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -10,5 +11,15 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
+  public isLoggedIn$ = this.authService.isLoggedIn$;
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  public logOut() {
+    this.authService.logOut();
+
+    const url = ['home'];
+    this.router.navigate(url);
+  }
 
 }
