@@ -38,6 +38,16 @@ export class AuthService {
     )
   }
 
+  public logIn(username: string | undefined | null, password: string | undefined | null): Observable<string>{
+    return this.http.post<string>(`${ authURL }/login`, { username, password })
+    .pipe(
+      tap(token => {
+        this._isLoggedIn$.next(true);
+        this.setAuthorizationToken(token);
+      })
+    )
+  }
+
   private setAuthorizationToken(token: string) {
     localStorage.setItem('token', token);
   }

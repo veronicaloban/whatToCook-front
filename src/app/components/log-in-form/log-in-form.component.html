@@ -1,1 +1,37 @@
-<p>log-in-form works!</p>
+<div class="d-flex flex-column justify-content-center align-items-center container-fluid vh-100">
+    <h2 class="mb-4">
+        {{ translations.title }}
+    </h2>
+ 
+    <form [formGroup]="logInForm" class="container-sm">
+        <div
+            class="row input-group input-group-lg mt-3 ms-0 me-0 has-validation" 
+            [ngClass]="{invalid: isInValid('username')}">
+            <input type="text" formControlName="username" class="form-control form-control-lg" placeholder="Username"/>
+
+            <ng-container *ngIf="isInValid('username')">
+                <app-form-errors [form]="logInForm" [control]="'username'"></app-form-errors>
+            </ng-container>
+        </div>
+
+        <div
+            class="input-group input-group-lg mt-3 ms-0 me-0"
+            [ngClass]="{invalid: isInValid('password')}">
+            <input #enterPasswordInput type='password' formControlName="password" class="form-control form-control-lg" placeholder="Password"/>
+
+            <button #enterPasswordIcon class="btn btn-outline-secondary bi bi-eye-slash-fill" (click)="togglePasswordVisibility(enterPasswordInput, enterPasswordIcon)"></button>
+        </div>
+        
+        <ng-container *ngIf="isInValid('password')">
+            <app-form-errors [form]="logInForm" [control]="'password'"></app-form-errors>
+        </ng-container> 
+
+        <div class="row ms-0 me-0 mt-3">
+            <button class="btn btn-lg btn-secondary col-sm-5" [disabled]="logInForm.invalid" #logInButton>
+                {{ translations.logIn }}
+            </button>
+
+            <p class="col-sm-7 mb-0 ps-2 pe-0">{{ translations.dontHaveAcc }} <a class="link-secondary" (click)="goToSignup()">{{ translations.signUp }}</a></p>
+        </div>
+    </form>    
+</div>

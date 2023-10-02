@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LogInFormComponent } from './components/log-in-form/log-in-form.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
+import { FormErrorsComponent } from './shared/form-errors/form-errors.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { RegisterFormComponent } from './components/register-form/register-form.
     AppComponent,
     LogInFormComponent,
     RegisterFormComponent,
+    FormErrorsComponent,
   ],
   imports: [
     BrowserModule,

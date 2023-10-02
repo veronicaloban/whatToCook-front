@@ -54,24 +54,22 @@ export class RegisterFormComponent {
     
     private onRegister(): Observable<string> {
       return fromEvent(this.registerButton.nativeElement, 'click')
-      .pipe(
-        exhaustMap(() => {
-          const { login, email, password } = this.registerForm.value;
-
-          return this.authService.createAccount(email, login, password)
-        })
-      )
+        .pipe(
+            exhaustMap(() => {
+              const { login, email, password } = this.registerForm.value;
+              
+              return this.authService.createAccount(email, login, password);
+            })
+        )
   }
 
   public navigateToHome(token: string) {
       if(token) {
-        const url = ['home'];
-
-        this.router.navigate(url)
+        this.router.navigate(['home']);
       }
   }
 
   public goToLogIn() {
-      this.router.navigate(['login'])
+      this.router.navigate(['login']);
   }
 }

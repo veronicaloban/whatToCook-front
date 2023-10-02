@@ -1,0 +1,10 @@
+form {
+    width: 100%;
+    max-width: 450px;
+}
+
+.invalid {
+    input {
+        border: 1px solid red;
+    }
+}
