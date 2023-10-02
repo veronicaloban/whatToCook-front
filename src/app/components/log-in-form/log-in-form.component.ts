@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -25,14 +25,13 @@ export class LogInFormComponent {
     password: ['', [Validators.required]]
   })
   
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   public getControl(control: 'username' | 'password'): FormControl<string> {
     return this.logInForm.controls[control] as unknown as FormControl<string>;
   }
   
   public isInValid(control: 'username' | 'password'): boolean {
-    console.log(control, this.getControl(control).invalid && (this.getControl(control).dirty || this.getControl(control).touched))
     return this.getControl(control).invalid && (this.getControl(control).dirty || this.getControl(control).touched);
   }
   
@@ -74,6 +73,8 @@ export class LogInFormComponent {
   private setFormErrors(): Observable<string> {
     this.logInForm.controls['username'].setErrors({'incorrect': true});
     this.logInForm.controls['password'].setErrors({'incorrect': true});
+
+    this.cdr.markForCheck();
 
     return this.onLogIn(); //retry original obeservable immediately
   }
