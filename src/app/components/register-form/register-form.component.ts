@@ -28,7 +28,9 @@ export class RegisterFormComponent {
     
     private registerSub!: Subscription;
     
-    constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {}
+    constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
+      console.log(this.registerForm);
+    }
     
     public getControl(control: 'email' | 'login' | 'password' | 'repeatPassword') {
       return this.registerForm.controls[control];

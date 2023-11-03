@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
-import { urls } from 'src/app/constants/urls';
+import { urls } from '../../constants/urls';
 
 const { authURL } = urls;
 
