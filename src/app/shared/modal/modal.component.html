@@ -1,0 +1,17 @@
+<div class="h-100 d-block rounded-3 pt-3 pb-3 pe-4 ps-4 d-flex flex-column" [ngClass]="type">
+    <div class="d-flex justify-content-between ">
+      <h5 class="text-light">{{ data.texts.title }}</h5>
+      <button type="button" class="btn-close" (click)="dialogRef.close()" tabindex="-1"></button>
+    </div>
+  
+    <div class="flex-grow-1 body rounded-3 pe-2 ps-2">
+      <div class="sign"></div>
+      <p class="text-c enter">{{ data.texts.body }}</p>
+    </div>
+  
+    <div *ngIf="data.texts.buttons" class="align-self-end pt-2">
+      <button type="button" class="btn btn-secondary me-2" (click)="dialogRef.close()">{{ data.texts.buttons.backButton }}</button>
+      <button type="button" class="btn btn-secondary" (click)="dialogRef.close(true)">{{ data.texts.buttons.confirmButton }}</button>
+    </div>
+  </div>
+  
