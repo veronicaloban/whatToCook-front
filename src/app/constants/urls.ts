@@ -4,4 +4,5 @@ const { baseURL } = environment;
 
 export const urls = {
     authURL: `${ baseURL }/auth`,
+    recipesURL: `${ baseURL }/recipes`
 }

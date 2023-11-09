@@ -1,0 +1,30 @@
+//should we have variables for height, width, background-position
+
+.ingredients li, .steps li {
+    list-style: none;
+}
+
+.ingredients li {
+    height: 40px;
+
+    &::before {
+    content: '';
+    margin-right: 25px;
+    height: 25px;
+    width: 25px;
+    // background-image: url('../../../assets/images/apple-pie\ \(1\).png');
+    background-image: url('../../../assets/images/apple-pie\ \(1\).png');
+    }
+}
+
+.steps li::before {
+    content: attr(data-content);
+    margin-right: 25px;
+    height: 50px;
+    min-width: 65px;
+    background-image: url('../../../assets/images/right-arrow.png');
+    background-repeat: no-repeat;
+    color: white;
+    background-position: 3px -11px;
+    text-align: center
+}

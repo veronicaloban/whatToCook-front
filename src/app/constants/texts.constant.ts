@@ -1,3 +1,5 @@
+import { IModalTexts } from "../interfaces/modalTexts.interface"
+
 export const REGISTER_FORM_TEXTS = {
     title: ' Create an account',
     placeholders: {
@@ -32,4 +34,19 @@ export const FORM_ERRORS_TEXTS = {
     shouldEqual: 'Passwords should be equal.',
     required: 'This field is required.',
     incorrect: 'Username or password is incorrect.'
+}
+
+export const MODAL_TEXTS: Record<string, IModalTexts> = {
+    successfullyAdded: {
+        title: 'Successfully Added!',
+        body: 'Your recipe has been successfully added to your collection. You can add another one now.',
+    }, 
+    leaveModal: {
+        title: 'Are you sure you want to leave?',
+        body: 'All filled in data will be lost',
+        buttons: {
+            backButton: 'Stay',
+            confirmButton: 'Yes, leave'
+        }
+    }
 }
