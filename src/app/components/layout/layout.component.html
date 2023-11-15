@@ -3,6 +3,12 @@
         <li class="nav-item">
             <a class="nav-link text-secondary pt-3 pb-3" routerLink="/home">Home</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link text-secondary pt-3 pb-3" *ngIf="isLoggedIn$ | async" routerLink="/add-new">Add new</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-secondary pt-3 pb-3" *ngIf="isLoggedIn$ | async" routerLink="/my-collection">My Collection</a>
+        </li>
     </ul>
 
     <ul class="nav nav-tabs border-0">
