@@ -67,10 +67,10 @@ export class AddNewComponent implements DoCheck {
 
     console.log(recipe)
     
-    // this.recipeService.addNewRecipe(recipe).subscribe( (recipe) => { //we also should unsubscribe
-    //   this.recipeForm.reset();
-    //   this.openModal();
-    // })
+    this.recipeService.addNewRecipe(recipe).subscribe( (recipe) => { //we also should unsubscribe
+      this.recipeForm.reset();
+      this.openModal();
+    })
     this.recipeForm.reset();
     this.openModal();
   }

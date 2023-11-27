@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,8 @@ import { hidePassword, showPassword } from 'src/app/utils/password.functions';
 @Component({
   selector: 'app-register-form',
   templateUrl: './register-form.component.html',
-  styleUrls: ['./register-form.component.scss']
+  styleUrls: ['./register-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterFormComponent {
     @ViewChild('registerButton') public registerButton!: ElementRef;
@@ -45,9 +46,8 @@ export class RegisterFormComponent {
     }
     
     ngAfterViewInit(): void {
-      this.registerSub = this.onRegister().subscribe(
-        this.navigateToHome
-      );
+      this.registerSub = this.onRegister()
+        .subscribe(token => this.navigateToHome(token));
     }
 
     ngOnDesroy() {

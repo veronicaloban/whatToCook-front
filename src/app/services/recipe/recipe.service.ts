@@ -15,7 +15,7 @@ export class RecipeService {
   constructor(private http: HttpClient) {}
 
   public addNewRecipe(recipe: IRecipe): Observable<IRecipe> {
-    return this.http.post<any>(recipesURL, recipe);
+    return this.http.post<IRecipe>(recipesURL, recipe);
   }
 
   public getAllRecipes(): Observable<IRecipe[]> { //add return type
