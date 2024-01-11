@@ -21,13 +21,13 @@ export class AuthService {
   }
   
   public checkIfEmailExists(email: string): Observable<boolean> {
-    return this.http.post<boolean>(`${ authURL }/checkExistingEmail`, { email });
+    return this.http.post<boolean>(`${ authURL }/checkExistingEmail`, { email }); //why post??
   }
 
   public checkIfLoginExists(login: string): Observable<boolean> {
-    return this.http.post<boolean>(`${ authURL }/checkExistingLogin`, { login });
+    return this.http.post<boolean>(`${ authURL }/checkExistingLogin`, { login }); //why post??
   }
-
+//TODO: rewrite to object
   public createAccount(email: string | undefined | null, username: string | undefined | null, password: string | undefined | null) { //rewrite
     return this.http.post<string>(`${ authURL }/signup`, { email, username, password })
     .pipe(
