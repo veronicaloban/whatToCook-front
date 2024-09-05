@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, map, of } from 'rxjs';
 import { AddNewComponent } from '../components/add-new/add-new.component';
 import { MODAL_TEXTS } from '../constants/texts.constant';
@@ -10,7 +10,7 @@ import { Overlay } from '@angular/cdk/overlay';
 @Injectable({
   providedIn: 'root'
 })
-export class LeaveFormGuard implements CanDeactivate<AddNewComponent> {
+export class LeaveFormGuard  {
   private readonly modalTexts = MODAL_TEXTS['leaveModal'];
 
   constructor(private dialog: Dialog, private overlay: Overlay ) {}
