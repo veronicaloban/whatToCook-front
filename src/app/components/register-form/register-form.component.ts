@@ -1,77 +1,73 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Observable, Subscription, exhaustMap, fromEvent } from 'rxjs';
 import { REGISTER_FORM_TEXTS } from 'src/app/constants/texts.constant';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { FormErrorsComponent } from 'src/app/shared/form-errors/form-errors.component';
+import { InputComponent } from 'src/app/shared/input/input.component';
 import { ExistingEmailValidator, ExistingLoginValidator, checkPasswordsEquality } from 'src/app/utils/customValidators';
-import { hidePassword, showPassword } from 'src/app/utils/password.functions';
 
 @Component({
   selector: 'app-register-form',
   templateUrl: './register-form.component.html',
   styleUrls: ['./register-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgClass,
+    ReactiveFormsModule,
+    
+    FormErrorsComponent,
+    InputComponent
+  ]
 })
 export class RegisterFormComponent {
-    @ViewChild('registerButton') public registerButton!: ElementRef;
-    
-    public  translations = REGISTER_FORM_TEXTS;
-    
-    public registerForm = this.fb.group({
-      email: [null, [Validators.email, Validators.required], ExistingEmailValidator.createValidator(this.authService)],
-      login: [null, [Validators.required, Validators.minLength(3)], ExistingLoginValidator.createValidator(this.authService)],
-      password: [null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&]{8,32}$/)]],
-      repeatPassword: ['', Validators.required]
-    }, { validators: checkPasswordsEquality()}) // updatedOn: blur affects all controls,  but for repeatPassword it is better to use updateOn: change
+  @ViewChild('registerButton') public registerButton!: ElementRef;
 
-    
-    private registerSub!: Subscription;
-    
-    constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
-      console.log(this.registerForm);
-    }
-    
-    public getControl(control: 'email' | 'login' | 'password' | 'repeatPassword') {
-      return this.registerForm.controls[control];
-    }
-    
-    public isValid(control: 'email' | 'login' | 'password' | 'repeatPassword'): boolean | undefined {
-      return this.getControl(control)?.invalid && (this.getControl(control)?.dirty || this.getControl(control)?.touched)
-    }
-    
-    public togglePasswordVisibility(input: HTMLInputElement, icon: HTMLElement): void {
-      input.type === 'password' ?  showPassword(input, icon.classList) : hidePassword(input, icon.classList);
-    }
-    
-    ngAfterViewInit(): void {
-      this.registerSub = this.onRegister()
-        .subscribe(token => this.navigateToHome(token));
-    }
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
-    ngOnDesroy() {
-      this.registerSub.unsubscribe();
-    }
+  protected readonly translations = REGISTER_FORM_TEXTS;
+  protected readonly registerForm = this.fb.group({
+    email: [null, [Validators.email, Validators.required], ], //ExistingEmailValidator.createValidator(this.authService)
+    login: [null, [Validators.required, Validators.minLength(3)], ExistingLoginValidator.createValidator(this.authService)],
+    password: [null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&]{8,32}$/)]],
+    repeatPassword: ['', Validators.required]
+  }, { validators: checkPasswordsEquality()}) // updatedOn: blur affects all controls,  but for repeatPassword it is better to use updateOn: change
     
-    private onRegister(): Observable<string> {
-      return fromEvent(this.registerButton.nativeElement, 'click')
-        .pipe(
-            exhaustMap(() => {
-              const { login, email, password } = this.registerForm.value;
-              
-              return this.authService.createAccount(email, login, password);
-            })
-        )
+  private registerSub!: Subscription;
+    
+  public ngAfterViewInit(): void {
+    this.registerSub = this.onRegister()
+      .subscribe(token => this.navigateToHome(token));
   }
 
-  public navigateToHome(token: string) {
+  public ngOnDesroy(): void {
+    this.registerSub.unsubscribe();
+  }
+    
+  private onRegister(): Observable<string> {
+    return fromEvent<string>(this.registerButton.nativeElement, 'click')
+      .pipe(
+        exhaustMap(() => {
+          const { login, email, password } = this.registerForm.value;
+          
+          return this.authService.createAccount(email, login, password);
+        })
+      )
+  }
+
+  public navigateToHome(token: string): void {
       if(token) {
         this.router.navigate(['home']);
       }
   }
 
-  public goToLogIn() {
+  public goToLogIn(): void {
       this.router.navigate(['login']);
   }
 }

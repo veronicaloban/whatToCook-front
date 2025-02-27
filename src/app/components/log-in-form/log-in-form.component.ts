@@ -1,18 +1,25 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
 import { Observable, Subscription, catchError, exhaustMap, fromEvent } from 'rxjs';
-import { LOGIN_FORM_TEXTS } from 'src/app/constants/texts.constant';
 
+import { LOGIN_FORM_TEXTS } from 'src/app/constants/texts.constant';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { hidePassword, showPassword } from 'src/app/utils/password.functions';
+import { FormErrorsComponent } from 'src/app/shared/form-errors/form-errors.component';
+import { InputComponent } from 'src/app/shared/input/input.component';
 
 @Component({
   selector: 'app-log-in-form',
   templateUrl: './log-in-form.component.html',
   styleUrls: ['./log-in-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    
+    FormErrorsComponent,
+    InputComponent
+  ]
 })
 export class LogInFormComponent {
   private logInSub!: Subscription;
@@ -26,14 +33,6 @@ export class LogInFormComponent {
   })
   
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private cdr: ChangeDetectorRef) {}
-
-  public getControl(control: 'username' | 'password'): FormControl<string> {
-    return this.logInForm.controls[control] as unknown as FormControl<string>;
-  }
-  
-  public isInValid(control: 'username' | 'password'): boolean {
-    return this.getControl(control).invalid && (this.getControl(control).dirty || this.getControl(control).touched);
-  }
   
   public navigateToHome(token: string): void {
     if(token) {
@@ -43,10 +42,6 @@ export class LogInFormComponent {
   
   public goToSignup(): void {
     this.router.navigate(['signup']);
-  }
-
-  public togglePasswordVisibility(input: HTMLInputElement, icon: HTMLElement): void {
-    input.type === 'password' ?  showPassword(input, icon.classList) : hidePassword(input, icon.classList);
   }
 
   ngAfterViewInit(): void {

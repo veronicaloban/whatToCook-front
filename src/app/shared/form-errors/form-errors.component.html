@@ -1,7 +1,5 @@
-<small class="text-danger" *ngIf="form.get(control)?.hasError('required')">
-    {{ texts.required }}
-</small>
-
-<small class="text-danger" *ngIf="form.get(control)?.hasError('incorrect')">
-    {{ texts.incorrect }}
-</small>
+@if(error()) {
+    <small class="text-danger">
+        {{ error() }}
+    </small>
+}

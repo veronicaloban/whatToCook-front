@@ -27,10 +27,10 @@ export const LOGIN_FORM_TEXTS = {
     signUp: 'Sign up'
 }
 
-export const FORM_ERRORS_TEXTS = {
-    emailFormat: 'Email should follow email format.',
-    minLength: 'Login should be at least 3 characters long.',
-    passwordChars: 'Password should contain at least 1 small letter, 1 capital letter, 1 digit, 1 special character.',
+export const FORM_ERRORS_TEXTS: Record<string, string> = {
+    email: 'Email should follow email format.',
+    minlength: 'Login should be at least 3 characters long.',
+    pattern: 'Password should contain at least 1 small letter, 1 capital letter, 1 digit, 1 special character.',
     shouldEqual: 'Passwords should be equal.',
     required: 'This field is required.',
     incorrect: 'Username or password is incorrect.'

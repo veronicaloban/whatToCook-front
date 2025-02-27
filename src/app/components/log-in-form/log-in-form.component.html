@@ -3,28 +3,20 @@
         {{ translations.title }}
     </h2>
  
-    <form [formGroup]="logInForm" class="container-sm">
-        <div
-            class="row input-group input-group-lg mt-3 ms-0 me-0 has-validation" 
-            [ngClass]="{invalid: isInValid('username')}">
-            <input type="text" formControlName="username" class="form-control form-control-lg" placeholder="Username"/>
+    <form [formGroup]="logInForm" class="container-sm border mt-3 p-4 d-flex flex-column gap-3">
+        <app-input
+            type="username"
+            formControlName="username"
+            placeholder="Username">
+            <app-form-errors [control]="logInForm.controls.username"></app-form-errors>
+        </app-input>
 
-            <ng-container *ngIf="isInValid('username')">
-                <app-form-errors [form]="logInForm" [control]="'username'"></app-form-errors>
-            </ng-container>
-        </div>
-
-        <div
-            class="input-group input-group-lg mt-3 ms-0 me-0"
-            [ngClass]="{invalid: isInValid('password')}">
-            <input #enterPasswordInput type='password' formControlName="password" class="form-control form-control-lg" placeholder="Password"/>
-
-            <button #enterPasswordIcon class="btn btn-outline-secondary bi bi-eye-slash-fill" (click)="togglePasswordVisibility(enterPasswordInput, enterPasswordIcon)"></button>
-        </div>
-        
-        <ng-container *ngIf="isInValid('password')">
-            <app-form-errors [form]="logInForm" [control]="'password'"></app-form-errors>
-        </ng-container> 
+        <app-input
+            type="password"
+            formControlName="password"
+            placeholder="Password">
+            <app-form-errors [control]="logInForm.controls.password"></app-form-errors>
+        </app-input>
 
         <div class="row ms-0 me-0 mt-3">
             <button class="btn btn-lg btn-secondary col-sm-5" [disabled]="logInForm.invalid" #logInButton>

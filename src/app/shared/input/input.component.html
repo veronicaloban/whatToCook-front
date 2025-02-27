@@ -1,0 +1,23 @@
+<div>
+    <div class="input-group input-group-lg ms-0 me-0">
+        <input
+            #input
+            class="form-control form-control-lg"
+            [class.invalid]="showError"
+            [(ngModel)]="value"
+            [type]="type()"
+            [placeholder]="placeholder()"/>
+        
+        @if(type() === 'password') {
+            <button
+                #passwordIcon
+                class="btn btn-outline-secondary bi bi-eye-slash-fill"
+                (click)="togglePasswordVisibility(input, passwordIcon)">
+            </button>
+        }
+     </div>
+    
+     @if(showError) {
+        <ng-content></ng-content>
+     }
+</div>

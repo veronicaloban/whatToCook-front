@@ -3,40 +3,36 @@
         {{ translations.title }}
     </h2>
 
-    <form [formGroup]="registerForm" class="container-sm border mt-3 pe-4 ps-4">
-        <div 
-            class="row input-group input-group-lg mb-3 mt-3 ms-0 me-0 has-validation"
-            [ngClass]="{invalid: isValid('email')}"
-            [attr.data-error-message]="translations.errorMessages.email">
-            <input type="email" formControlName="email" class="form-control" placeholder="Your email address"/>
-        </div>
-    
-        <div
-            class="row input-group input-group-lg mb-3 mt-3 ms-0 me-0 has-validation"
-            [ngClass]="{invalid: isValid('login')}"
-            [attr.data-error-message]="translations.errorMessages.login">
-            <input type="text" formControlName="login" class="form-control" placeholder="Create login" />
-        </div>
-    
-        <div
-            class="input-group input-group-lg mb-3 mt-3 ms-0 me-0"
-            [ngClass]="{invalid: isValid('password')}"
-            [attr.data-error-message]="translations.errorMessages.password">
-            <input #createPasswordInput type='password' formControlName="password" class="form-control" placeholder="Create password"/>
+    <form [formGroup]="registerForm" class="container-sm border mt-3 p-4 d-flex flex-column gap-3">
+        <app-input
+            type="email"
+            formControlName="email"
+            placeholder="Your email address">
+            <app-form-errors [control]="registerForm.controls.email"></app-form-errors>
+        </app-input>
 
-            <button #createPasswordIcon class="btn btn-outline-secondary bi bi-eye-slash-fill" (click)="togglePasswordVisibility(createPasswordInput, createPasswordIcon)"></button>
-        </div>
+        <app-input
+            type="text"
+            formControlName="login"
+            placeholder="Your login">
+            <app-form-errors [control]="registerForm.controls.login"></app-form-errors>
+        </app-input>
 
-        <div
-            class="input-group input-group-lg mb-3 mt-3 ms-0 me-0"
-            [ngClass]="{invalid: registerForm.errors?.['passwordsUnequal']}"
-            [attr.data-error-message]="translations.errorMessages.confirmPassword">
-            <input #repeatPasswordInput type='password' formControlName="repeatPassword" class="form-control" placeholder="Repeat password" />
+        <app-input
+            type="password"
+            formControlName="password"
+            placeholder="Create password">
+            <app-form-errors [control]="registerForm.controls.password"></app-form-errors>
+        </app-input>
 
-            <button #repeatPasswordIcon class="btn btn-outline-secondary bi bi-eye-slash-fill" (click)="togglePasswordVisibility(repeatPasswordInput, repeatPasswordIcon)"></button>
-        </div>
+        <app-input
+            type="password"
+            formControlName="repeatPassword"
+            placeholder="Repeat password">
+            <app-form-errors [control]="registerForm.controls.repeatPassword"></app-form-errors>
+        </app-input>
 
-        <div class="row ms-0 me-0 mb-3">
+        <div class="row ms-0 me-0">
             <p class="col-sm-6 mb-0 ps-0">
                 {{ translations.loginRedirect.alreadyHaveAccount }}
 
