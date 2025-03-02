@@ -4,11 +4,10 @@ import { ControlValueAccessor, FormsModule, NgControl} from '@angular/forms';
 import { hidePassword, showPassword } from 'src/app/utils/password.functions';
 
 @Component({
-  selector: 'app-input',
-  standalone: true,
-  imports: [FormsModule],
-  templateUrl: './input.component.html',
-  styleUrl: './input.component.css'
+    selector: 'app-input',
+    imports: [FormsModule],
+    templateUrl: './input.component.html',
+    styleUrl: './input.component.css'
 })
 export class InputComponent implements ControlValueAccessor {
   public readonly placeholder = input.required<string>();

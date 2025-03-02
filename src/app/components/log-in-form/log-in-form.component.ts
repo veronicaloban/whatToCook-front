@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription, catchError, exhaustMap, fromEvent } from 'rxjs';
@@ -9,30 +9,32 @@ import { FormErrorsComponent } from 'src/app/shared/form-errors/form-errors.comp
 import { InputComponent } from 'src/app/shared/input/input.component';
 
 @Component({
-  selector: 'app-log-in-form',
-  templateUrl: './log-in-form.component.html',
-  styleUrls: ['./log-in-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    
-    FormErrorsComponent,
-    InputComponent
-  ]
+    selector: 'app-log-in-form',
+    templateUrl: './log-in-form.component.html',
+    styleUrls: ['./log-in-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        ReactiveFormsModule,
+        FormErrorsComponent,
+        InputComponent
+    ]
 })
 export class LogInFormComponent {
-  private logInSub!: Subscription;
-  
-  @ViewChild('logInButton') public logInButton!: ElementRef;
+  public readonly logInButton = viewChild<ElementRef>('logInButton');
 
-  public translations = LOGIN_FORM_TEXTS;
-  public logInForm = this.fb.group({
+  private logInSub!: Subscription;
+
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  protected readonly translations = LOGIN_FORM_TEXTS;
+  protected readonly logInForm = this.fb.group({
     username: ['', Validators.required],
     password: ['', [Validators.required]]
   })
-  
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private cdr: ChangeDetectorRef) {}
   
   public navigateToHome(token: string): void {
     if(token) {
@@ -54,7 +56,7 @@ export class LogInFormComponent {
   }
   
   private onLogIn(): Observable<string> {
-    return fromEvent(this.logInButton.nativeElement, 'click')
+    return fromEvent(this.logInButton()?.nativeElement, 'click')
       .pipe(
         exhaustMap(() => {
           const { username, password } = this.logInForm.value;

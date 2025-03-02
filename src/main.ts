@@ -1,7 +1,27 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import { DialogModule } from '@angular/cdk/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AppModule } from './app/app.module';
+import { AuthenticationInterceptor } from './app/interceptors/authentication.interceptor';
+import { AppComponent } from './app/app.component';
+import { ROUTES } from './app/app-routing';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(ROUTES),
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true
+    },
+    DialogModule,
+    ReactiveFormsModule,
+    NgbModule,
+    provideExperimentalZonelessChangeDetection()
+  ]
+});

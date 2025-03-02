@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-
-import { BehaviorSubject, Observable } from "rxjs";
+import { Injectable, inject } from "@angular/core";
+import { Observable } from "rxjs";
 
 import { IRecipe } from "../../interfaces/recipe.interface";
 import { urls } from "../../constants/urls";
@@ -12,17 +11,13 @@ const { recipesURL } = urls;
   providedIn: "root"
 })
 export class RecipeService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   public addNewRecipe(recipe: IRecipe): Observable<IRecipe> {
     return this.http.post<IRecipe>(recipesURL, recipe);
   }
 
-  public getAllRecipes(): Observable<IRecipe[]> { //add return type
-    return this.http.get<IRecipe[]>(recipesURL);
-  }
-
-  public getOneRecipe(id: number) {
+  public getOneRecipe(id: number): Observable<IRecipe> {
     return this.http.get<IRecipe>(`${ recipesURL }/${ id }`)
   }
 }

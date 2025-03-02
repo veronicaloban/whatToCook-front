@@ -1,13 +1,17 @@
 <div class="container-sm mt-3">
   <div class="row row-cols-sm-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
-    <div class="col mb-2" *ngFor="let recipe of recipes$ | async">
-      <div class="card">
-        <img src="../../../../assets/images/27814650.jpg">
-        <div class="card-body">
-          <h5 class="card-title">{{ recipe.title }}</h5>
-          <a class="btn btn-secondary" (click)="openFull(recipe)">Go to full description</a>
+    @for(recipe of recipes.value(); track recipe.id) {
+      <div class="col mb-2">
+        <div class="card">
+          <img src="../../../../assets/images/27814650.jpg">
+
+          <div class="card-body">
+            <h5 class="card-title">{{ recipe.title }}</h5>
+
+            <a class="btn btn-secondary" (click)="openFull(recipe)">Go to full description</a>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 </div>

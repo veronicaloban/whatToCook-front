@@ -5,7 +5,6 @@ import { IModalData } from "../../interfaces/IModalData.interfaces";
 
 @Component({
     selector: 'app-modal',
-    standalone: true,
     imports: [CommonModule],
     styleUrls: ['./modal.component.scss'],
     templateUrl: './modal.component.html',

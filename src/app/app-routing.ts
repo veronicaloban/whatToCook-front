@@ -1,5 +1,4 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Routes } from "@angular/router";
 
 import { LayoutComponent } from "./components/layout/layout.component";
 import { HomeComponent } from "./components/home/home.component";
@@ -11,7 +10,7 @@ import { MyCollectionComponent } from "./components/my-collection/my-collection.
 import { RecipeViewComponent } from "./components/recipe-view/recipe-view.component";
 import { LeaveFormGuard } from "./guards/leave-form.guard";
 
-const ROUTES: Routes = [
+export const ROUTES: Routes = [
     {
       path: '',
       component: LayoutComponent,
@@ -52,13 +51,4 @@ const ROUTES: Routes = [
       component: RegisterFormComponent
     },
   ];
-
-  @NgModule({
-    imports: [
-      RouterModule.forRoot(
-        ROUTES
-      )
-    ]
-  })
-  export class AppRoutingModule {}
   

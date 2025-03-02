@@ -1,11 +1,16 @@
-<div *ngIf="openedRecipe$ | async as openedRecipe" class="container p-3">
-    <h2> {{ openedRecipe.title }} </h2>
-
-    <ul class="ingredients ps-0">
-        <li class="d-flex align-items-center" *ngFor="let ingredient of openedRecipe.ingredients">{{ ingredient }}</li>
-    </ul>
-
-    <ul class="steps ps-0">
-        <li class="d-flex mb-2" attr.data-content="{{stepText}} {{ i + 1 }}" *ngFor="let step of openedRecipe.steps; let i = index">{{ step }}</li>
-    </ul>
-</div>
+@if(openedRecipe(); as openedRecipe) {
+    <div class="container p-3">
+        <h2> {{ openedRecipe.title }} </h2>
+    
+        <ul class="ingredients ps-0">
+            @for(ingredient of openedRecipe.ingredients; track ingredient) {
+                <li class="d-flex align-items-center">{{ ingredient }}</li>
+            } 
+        </ul>
+        <ul class="steps ps-0">
+            @for(step of openedRecipe.steps; track step; let i = $index) {
+                <li class="d-flex mb-2" attr.data-content="{{stepText}} {{ i + 1 }}">{{ step }}</li>
+            }
+        </ul>
+    </div>
+}

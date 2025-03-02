@@ -1,25 +1,30 @@
-import { ChangeDetectionStrategy, Component, DoCheck } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DoCheck, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Overlay } from '@angular/cdk/overlay';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import { RecipeService } from '../../services/recipe/recipe.service';
 import { IRecipe } from '../../interfaces/recipe.interface';
 import { MODAL_TEXTS } from '../../constants/texts.constant';
-import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import { ModalComponent } from 'src/app/shared/modal/modal.component';
-import { Overlay } from '@angular/cdk/overlay';
+import { ModalComponent } from '../../shared/modal/modal.component';
 
 @Component({
-  selector: 'app-add-new',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DialogModule],
-  templateUrl: './add-new.component.html',
-  styleUrls: ['./add-new.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-add-new',
+    imports: [CommonModule, ReactiveFormsModule, DialogModule],
+    providers: [RecipeService],
+    templateUrl: './add-new.component.html',
+    styleUrls: ['./add-new.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddNewComponent implements DoCheck {
   private readonly modalTexts = MODAL_TEXTS['successfullyAdded'];
+  private readonly fb = inject(FormBuilder);
+  private readonly recipeService = inject(RecipeService);
+  private readonly dialog = inject(Dialog);
+  private readonly overlay = inject(Overlay);
 
-  public recipeForm = this.fb.group({
+  public readonly recipeForm = this.fb.group({
     title: ['', Validators.required],
     ingredients: this.fb.array([
       new FormControl("", Validators.required)
@@ -29,8 +34,6 @@ export class AddNewComponent implements DoCheck {
     ], Validators.required),
     description: '',
   })
-
-  constructor(private fb: FormBuilder, private recipeService: RecipeService, private dialog: Dialog, private overlay: Overlay ) {}
 
   ngDoCheck() {
     console.log('checked');
